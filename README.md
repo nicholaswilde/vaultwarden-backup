@@ -16,7 +16,6 @@ cd /opt/vaultwarden
 git clone https://github.com/nicholaswilde/vaultwarden-backup.git backup
 cd backup
 cp backup.conf.tmpl backup.conf
-cat crontab.tmpl | copy
 (crontab -l 2>/dev/null; cat cronjob.tmpl) | crontab -
 ```
 
