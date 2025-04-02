@@ -193,7 +193,7 @@ $HOME/vaultwarden/backup
 ## :balance_scale: License
 <!-- spellchecker-enable -->
 
-[Apache 2.0 License](./LICENSE)
+[License](./LICENSE)
 
 ---
 
