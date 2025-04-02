@@ -86,12 +86,12 @@ modify this setup to fit your own needs.
    data directory, under the name `backup`. In my setup, it looks like this:
 
 ```
-$HOME/vaultwarden  # Top-level Vaultwarden directory
+/opt/vaultwarden  # Top-level Vaultwarden directory
 ├── backup         # This backup repo
 └── data           # Vaultwarden data directory
 ```
 
-2. Copy the `backup.conf.template` file to `backup.conf`.
+2. Copy the `backup.conf.tmpl` file to `backup.conf`.
 
    1. If you want encrypted backup archives using `gpg`, set the
       `GPG_PASSPHRASE` variable accordingly. If you want to encrypt using
@@ -121,7 +121,7 @@ $HOME/vaultwarden  # Top-level Vaultwarden directory
       This can be useful for configuring any tools called from `backup.sh`,
       such as `rclone`.
 
-3. Modify the `backup/crontab.template` file as needed. This crontab actually
+3. Modify the `backup/crontab.tmpl` file as needed. This crontab actually
    calls `cron.sh` to run the backup, rather than calling `backup.sh` directly.
    Currently, `cron.sh` captures the output of the current run of `backup.sh`
    to a `backup.log` file. It also saves a copy of this log file, named
@@ -168,7 +168,7 @@ If everything is working properly, you should see the following:
 For example:
 
 ```shell
-$HOME/vaultwarden/backup
+/opt/vaultwarden/backup
 ├── archives
 │   ├── vaultwarden-20210101-0000.tar.xz
 │   ├── vaultwarden-20210101-0000.tar.xz.gpg
@@ -176,11 +176,11 @@ $HOME/vaultwarden/backup
 │   ├── vaultwarden-20210101-0100.tar.xz.gpg
 │   └── ...
 ├── backup.conf
-├── backup.conf.template
+├── backup.conf.tmpl
 ├── backup.log
 ├── backup.sh
 ├── cron.sh
-├── crontab.template
+├── crontab.tmpl
 ├── logs
 │   ├── backup-success-20210101-0000.log
 │   ├── backup-success-20210101-0100.log
