@@ -59,6 +59,8 @@ not to be general purpose):
 > If this is an issue, you might consider modifying the script to use
 > [restic](https://restic.net/) instead.
 
+## :arrow_right_hook: Deviations
+
 The deviations of this fork are:
 
 1. `apprise` notifications.
