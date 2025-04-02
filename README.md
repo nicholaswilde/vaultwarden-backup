@@ -75,6 +75,8 @@ modify this setup to fit your own needs.
    requires a [custom version](https://github.com/jjlin/age/tree/passphrase-from-env)
    of the tool that supports reading the passphrase from an environment variable.
 
+---
+
 ## :pencil: Usage
 
 1. Start by cloning this repo to the directory containing your Vaultwarden
@@ -184,5 +186,19 @@ $HOME/vaultwarden/backup
 ├── LICENSE
 └── README.md
 ```
+
+---
+
+<!-- spellchecker-disable -->
+## :balance_scale: License
+<!-- spellchecker-enable -->
+
+[Apache 2.0 License](./LICENSE)
+
+---
+
+## :pencil: Author
+
+This project was forked in 2025 by [Nicholas Wilde](https://github.com/nicholaswilde/).
 
 [1]: <https://www.vaultwarden.net/>
