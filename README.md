@@ -53,7 +53,7 @@ not to be general purpose):
    or [Dead Man’s Snitch](https://deadmanssnitch.com/) to provide notification
    of backup failures.
 
-> [!NOTE]
+> [!TIP]
 > This single-archive backup scheme isn't space-efficient if your vault
 > includes large file attachments, as they will be re-uploaded with each backup.
 > If this is an issue, you might consider modifying the script to use
