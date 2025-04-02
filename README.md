@@ -13,7 +13,7 @@ Setup `rclone`
 
 ```shell
 cd /opt/vaultwarden
-git clone backup
+git clone https://github.com/nicholaswilde/vaultwarden-backup.git backup
 cd backup
 cp backup.conf.tmpl backup.conf
 cat crontab.tmpl | copy
