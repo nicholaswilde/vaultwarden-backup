@@ -1,6 +1,6 @@
 # vaultwarden-backup
 
-## :frame_with_picture: Overview
+## :framed_picture: Overview
 
 > [!NOTE]
 > Vaultwarden was formerly known as bitwarden_rs.**
