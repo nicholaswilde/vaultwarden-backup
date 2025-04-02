@@ -3,6 +3,12 @@
 
 A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to cloud storage.
 
+## TL;DR
+
+WIP
+
+---
+
 ## :framed_picture: Overview
 
 > [!NOTE]
@@ -27,12 +33,6 @@ not to be general purpose):
    [Healthchecks.io](https://healthchecks.io/), [Cronitor](https://cronitor.io/),
    or [Dead Man’s Snitch](https://deadmanssnitch.com/) to provide notification
    of backup failures.
-
-For the most part, I'm not looking for contributions or feature requests, as
-this repo is only intended to implement my own backup requirements. I may be
-willing to make some minor generalizations to make it easier for people to
-use the repo without modification, but aside from that, feel free to fork and
-modify this setup to fit your own needs.
 
 > [!NOTE]
 > This single-archive backup scheme isn't space-efficient if your vault
@@ -189,6 +189,16 @@ For example:
 ├── LICENSE
 └── README.md
 ```
+
+---
+
+## :open_hands: Contributing
+
+For the most part, I'm not looking for contributions or feature requests, as
+this repo is only intended to implement my own backup requirements. I may be
+willing to make some minor generalizations to make it easier for people to
+use the repo without modification, but aside from that, feel free to fork and
+modify this setup to fit your own needs.
 
 ---
 
