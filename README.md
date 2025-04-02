@@ -3,9 +3,27 @@
 
 A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to cloud storage.
 
-## TL;DR
+## :pushpin: TL;DR
 
-WIP
+```shell
+apt install rclone apprise
+```
+
+Setup `rclone`
+
+```shell
+cd /opt/vaultwarden
+git clone backup
+cd backup
+cp backup.conf.tmpl backup.conf
+cat crontab.tmpl | copy
+```
+
+Edit `backup.conf`
+
+```shell
+./backup.sh
+```
 
 ---
 
