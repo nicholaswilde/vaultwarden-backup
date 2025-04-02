@@ -61,24 +61,42 @@ not to be general purpose):
 
 ## :clipboard: Prerequisites
 
-1. A standard Unix-like (preferably Linux) host running Vaultwarden. I don't
-   know much about Synology or other such environments.
+1. A standard Unix-like (preferably Linux) host running Vaultwarden.
 
-2. A [cron](https://en.wikipedia.org/wiki/Cron) daemon. This is used to run
+> [!NOTE]
+> I'm running this in Proxmox and so I've used the [ProxmoxVE community script][2]
+
+   ```shell
+   bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/vaultwarden.sh)"
+   ```
+
+3. A [`cron`](https://en.wikipedia.org/wiki/Cron) daemon. This is used to run
    backup actions on a scheduled basis.
 
-3. An `sqlite3` binary (https://sqlite.org/cli.html). This is used to back up
+   ```shell
+   apt install cron
+   ```
+
+4. An [`sqlite3`](https://sqlite.org/cli.html) binary. This is used to back up
    the SQLite database. This can be installed via the `sqlite3` package on
    Debian/Ubuntu or the `sqlite` package on RHEL/CentOS/Fedora.
 
-4. An `rclone` binary (https://rclone.org/). This is used to copy the backup
+   ```shell
+   apt install sqlite3
+   ```
+
+5. An [`rclone`](https://rclone.org/) binary. This is used to copy the backup
    archives to cloud storage. This can be installed via the `rclone` package
    on Debian/Ubuntu and RHEL/CentOS/Fedora ([EPEL](https://fedoraproject.org/wiki/EPEL)
    required for RHEL/CentOS), but as rclone changes more rapidly, it's probably
    best to just use the latest binary from https://rclone.org/downloads/.
 
-5. An account at one or more cloud storage services
-   [supported](https://rclone.org/overview/) by rclone. If you don't have one
+   ```shell
+   apt install rclone
+   ```
+   
+6. An account at one or more cloud storage services
+   [supported](https://rclone.org/overview/) by `rclone`. If you don't have one
    yet, here are a few cloud storage services that offer a free tier:
 
    * [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) (10 GB)
@@ -89,26 +107,34 @@ not to be general purpose):
    * [Microsoft OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage) (5 GB)
    * [Oracle Cloud](https://www.oracle.com/cloud/free/) (10 GB)
 
-6. Optionally, a `gpg` (GnuPG 2.x) binary (https://gnupg.org/). This can be
+7. Optionally, a [`gpg`](https://gnupg.org/) (GnuPG 2.x) binary. This can be
    installed via the `gnupg` package on Debian/Ubuntu or the `gnupg2` package
    on RHEL/CentOS/Fedora.
 
-7. Optionally, an `age` binary (https://github.com/FiloSottile/age). This option
+8. Optionally, an [`age`](https://github.com/FiloSottile/age) binary. This option
    requires a [custom version](https://github.com/jjlin/age/tree/passphrase-from-env)
    of the tool that supports reading the passphrase from an environment variable.
 
+9. Optionally, [`apprise`](https://github.com/caronc/apprise) can be used to send notifications with the job status.
+
 ---
 
-## :pencil: Usage
+## :gear: Config
 
 1. Start by cloning this repo to the directory containing your Vaultwarden
    data directory, under the name `backup`. In my setup, it looks like this:
 
-```
-/opt/vaultwarden  # Top-level Vaultwarden directory
-├── backup         # This backup repo
-└── data           # Vaultwarden data directory
-```
+   ```shell
+   cd /opt/vaultwarden
+   git clone https://github.com/nicholaswilde/vaultwarden-backup.git backup
+   cd backup
+   ```
+
+   ```shell
+   /opt/vaultwarden  # Top-level Vaultwarden directory
+   ├── backup         # This backup repo
+   └── data           # Vaultwarden data directory
+   ```
 
 2. Copy the `backup.conf.tmpl` file to `backup.conf`.
 
@@ -131,14 +157,23 @@ not to be general purpose):
       archives. If you prefer to use this method, just set `GPG_PASSPHRASE` to
       be blank, configure rclone crypt appropriately, and use the crypt remote
       in `RCLONE_DESTS`.
+  
+   2. Binary paths can be changed by setting their respective variables in `backup.conf`.
+      1. `SQLITE3`
+      2. `RCLONE`
+      3. `GPG`
+      4. `AGE`
 
-   2. Change `RCLONE_DESTS` to your list of rclone destinations. You'll have
+   3. `apprise` can be enabled by setting `APPRISE_EMAIL` in `backup.conf`.
+   
+   4. Change `RCLONE_DESTS` to your list of rclone destinations. You'll have
       to [configure](https://rclone.org/docs/) rclone appropriately first.
-
-   3. Note that `backup.conf` is simply sourced into the `backup.sh` script, so
-      you can add arbitrary environment variables into `backup.conf` as needed.
-      This can be useful for configuring any tools called from `backup.sh`,
-      such as `rclone`.
+      
+> [!NOTE]
+> `backup.conf` is simply sourced into the `backup.sh` script, so
+> you can add arbitrary environment variables into `backup.conf` as needed.
+> This can be useful for configuring any tools called from `backup.sh`,
+> such as `rclone`.
 
 3. Modify the `backup/crontab.tmpl` file as needed. This crontab actually
    calls `cron.sh` to run the backup, rather than calling `backup.sh` directly.
@@ -148,7 +183,7 @@ not to be general purpose):
    other custom logic to `cron.sh` if needed, such as signaling failure to a
    cron monitoring service.
 
-   1. If `$HOME/vaultwarden` isn't your top-level Vaultwarden directory, adjust
+   1. If `/opt/vaultwarden` isn't your top-level Vaultwarden directory, adjust
       the paths in this file accordingly.
 
    2. Review the backup schedule. I generate backup archives hourly, but you
@@ -164,7 +199,7 @@ not to be general purpose):
       or remove the job if you don't want vacuuming. Vacuuming compacts the
       database file so that operations are faster and backups are smaller.
 
-4. Install the crontab under a user (typically your normal login) that can
+5. Install the crontab under a user (typically your normal login) that can
    read your Vaultwarden data. In many cases, running `crontab -e` and pasting
    the contents of the filled-in crontab template file should work. Note that
    if your cron user doesn't have write permissions to the database, then you
@@ -174,7 +209,11 @@ not to be general purpose):
    `attempt to write a readonly database` error. (For more details, see
    https://sqlite.org/wal.html#read_only_databases.)
 
-5. If you use GnuPG 2.1 or later, see the note about `--pinentry-mode loopback`
+   ```shell
+   (crontab -l 2>/dev/null; cat crontab.tmpl) | crontab -
+   ```
+
+6. If you use GnuPG 2.1 or later, see the note about `--pinentry-mode loopback`
    in `backup.sh`.
 
 If everything is working properly, you should see the following:
@@ -211,6 +250,22 @@ For example:
 
 ---
 
+## :pencil: Usage
+
+Test the backup.
+
+```shell
+./backup.sh
+```
+
+Test the cron script.
+
+```shell
+./cron.sh
+```
+
+---
+
 ## :open_hands: Contributing
 
 For the most part, I'm not looking for contributions or feature requests, as
@@ -234,3 +289,4 @@ modify this setup to fit your own needs.
 This project was forked in 2025 by [Nicholas Wilde](https://github.com/nicholaswilde/).
 
 [1]: <https://www.vaultwarden.net/>
+[2]: <https://community-scripts.github.io/ProxmoxVE/scripts?id=vaultwarden>
