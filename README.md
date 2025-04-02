@@ -117,6 +117,16 @@ not to be general purpose):
 
 9. Optionally, [`apprise`](https://github.com/caronc/apprise) can be used to send notifications with the job status.
 
+```shell
+apt install apprise
+```
+
+Send test email
+
+```shell
+apprise -vv -t 'my title' -b 'my notification body' 'mailto://email:passkey@gmail.com'
+```
+
 ---
 
 ## :gear: Config

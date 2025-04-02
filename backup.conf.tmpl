@@ -1,6 +1,15 @@
 #!sh
 
 #
+# Binary paths
+#
+#SQLITE3=/usr/bin/sqlite3
+#RCLONE=/usr/bin/rclone
+#GPG=/usr/bin/gpg
+#AGE=/usr/local/bin/age
+#APPRISE=${HOME}/.local/bin/apprise
+
+#
 # Encryption options for GnuPG (https://www.gnupg.org/)
 # Uncomment to enable GnuPG encryption.
 #
@@ -11,9 +20,16 @@ GPG_PASSPHRASE='hunter2'
 # Encryption options for age (https://github.com/FiloSottile/age)
 # Uncomment to enable age encryption.
 #
-# AGE_PASSPHRASE='hunter2'
+#AGE_PASSPHRASE='hunter2'
+
+#
+# apprise email (https://github.com/caronc/apprise?tab=readme-ov-file#email-notifications)
+#
+#APPRISE_EMAIL=mailto://email:passkey@gmail.com
 
 RCLONE_DESTS=(
+    # Google Drive (https://rclone.org/drive/)
+    drive:vaultwarden
     # Backblaze B2 (https://rclone.org/b2/)
     b2:vaultwarden
     # Oracle Cloud Infrastructure (https://docs.oracle.com/en/solutions/move-data-to-cloud-storage-using-rclone/)
