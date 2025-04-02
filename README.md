@@ -6,7 +6,7 @@ A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to
 ## :framed_picture: Overview
 
 > [!NOTE]
-> Vaultwarden was formerly known as bitwarden_rs.**
+> Vaultwarden was formerly known as bitwarden_rs.
 
 This repo contains my automated setup for SQLite-based [Vaultwarden][1]
 backups. It's designed solely to meet my own backup requirements (i.e.,
