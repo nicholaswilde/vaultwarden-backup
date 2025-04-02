@@ -1,4 +1,4 @@
-# vaultwarden-backup
+# Vaultwarden Backup
 
 ## :framed_picture: Overview
 
