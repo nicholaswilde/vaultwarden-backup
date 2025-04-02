@@ -63,6 +63,7 @@ The deviations of this fork are:
 
 1. `apprise` notifications.
 2. Additional documentation and variables in `backup.conf`.
+3. Enable `GPG` or `age` encryption if passphrase is blank.
 
 ## :clipboard: Prerequisites
 
