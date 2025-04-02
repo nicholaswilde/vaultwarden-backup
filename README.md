@@ -1,10 +1,13 @@
-## Overview
+# vaultwarden-backup
 
-**Note: Vaultwarden was formerly known as bitwarden_rs.**
+## :frame_with_picture: Overview
 
-This repo contains my automated setup for SQLite-based Vaultwarden backups.
-It's designed solely to meet my own backup requirements (i.e., not to be
-general purpose):
+> [!NOTE]
+> Vaultwarden was formerly known as bitwarden_rs.**
+
+This repo contains my automated setup for SQLite-based [Vaultwarden][1]
+backups. It's designed solely to meet my own backup requirements (i.e.,
+not to be general purpose):
 
 1. Generate a single archive with a complete backup of all Vaultwarden data
    and config on a configurable schedule.
@@ -28,12 +31,13 @@ willing to make some minor generalizations to make it easier for people to
 use the repo without modification, but aside from that, feel free to fork and
 modify this setup to fit your own needs.
 
-Note: This single-archive backup scheme isn't space-efficient if your vault
-includes large file attachments, as they will be re-uploaded with each backup.
-If this is an issue, you might consider modifying the script to use
-[restic](https://restic.net/) instead.
+> [!NOTE]
+> This single-archive backup scheme isn't space-efficient if your vault
+> includes large file attachments, as they will be re-uploaded with each backup.
+> If this is an issue, you might consider modifying the script to use
+> [restic](https://restic.net/) instead.
 
-## Prerequisites
+## :clipboard: Prerequisites
 
 1. A standard Unix-like (preferably Linux) host running Vaultwarden. I don't
    know much about Synology or other such environments.
@@ -71,14 +75,16 @@ If this is an issue, you might consider modifying the script to use
    requires a [custom version](https://github.com/jjlin/age/tree/passphrase-from-env)
    of the tool that supports reading the passphrase from an environment variable.
 
-## Usage
+## :pencil: Usage
 
 1. Start by cloning this repo to the directory containing your Vaultwarden
    data directory, under the name `backup`. In my setup, it looks like this:
 
-       $HOME/vaultwarden  # Top-level Vaultwarden directory
-       ├── backup         # This backup repo
-       └── data           # Vaultwarden data directory
+```
+$HOME/vaultwarden  # Top-level Vaultwarden directory
+├── backup         # This backup repo
+└── data           # Vaultwarden data directory
+```
 
 2. Copy the `backup.conf.template` file to `backup.conf`.
 
@@ -155,7 +161,8 @@ If everything is working properly, you should see the following:
 4. Copies of the backup logs saved to `backup/logs`.
 
 For example:
-```
+
+```shell
 $HOME/vaultwarden/backup
 ├── archives
 │   ├── vaultwarden-20210101-0000.tar.xz
@@ -177,3 +184,5 @@ $HOME/vaultwarden/backup
 ├── LICENSE
 └── README.md
 ```
+
+[1]: <https://www.vaultwarden.net/>
