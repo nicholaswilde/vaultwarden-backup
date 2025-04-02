@@ -1,4 +1,4 @@
-# :lock: Vaultwarden Backup
+# :lock: Vaultwarden Backup :floppy_disk:
 [![task](https://img.shields.io/badge/Task-Enabled-brightgreen?style=for-the-badge&logo=task&logoColor=white)](https://taskfile.dev/#/)
 
 A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to cloud storage.
