@@ -1,5 +1,7 @@
 # Vaultwarden Backup
 
+A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to cloud storage.
+
 ## :framed_picture: Overview
 
 > [!NOTE]
