@@ -59,6 +59,11 @@ not to be general purpose):
 > If this is an issue, you might consider modifying the script to use
 > [restic](https://restic.net/) instead.
 
+The deviations of this fork are:
+
+1. `apprise` notifications.
+2. Additional documentation and variables in `backup.conf`.
+
 ## :clipboard: Prerequisites
 
 1. A standard Unix-like (preferably Linux) host running Vaultwarden.
