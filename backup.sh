@@ -34,55 +34,70 @@ mkdir -p "${BACKUP_DIR_PATH}"
 # configured to retry by using the `.timeout <ms>` meta command to set a busy handler
 # (https://www.sqlite.org/c3ref/busy_timeout.html), which will keep trying to open a
 # locked table until the timeout period elapses.
+
 busy_timeout=30000 # in milliseconds
+
 ${SQLITE3} -cmd ".timeout ${busy_timeout}" \
            "file:${DATA_DIR}/${DB_FILE}?mode=ro" \
            ".backup '${BACKUP_DIR_PATH}/${DB_FILE}'"
 
-backup_files=()
-for f in attachments config.json rsa_key.der rsa_key.pem rsa_key.pub.der rsa_key.pub.pem sends; do
-    if [[ -e "${DATA_DIR}"/$f ]]; then
-        backup_files+=("${DATA_DIR}"/$f)
-    fi
-done
-cp -a "${backup_files[@]}" "${BACKUP_DIR_PATH}"
-tar -cJf "${BACKUP_FILE_PATH}" -C "${BACKUP_ROOT}" "${BACKUP_DIR_NAME}"
-rm -rf "${BACKUP_DIR_PATH}"
-md5sum "${BACKUP_FILE_PATH}"
-sha1sum "${BACKUP_FILE_PATH}"
+function checksums(){
+  local f=$1
+  md5sum "${f}"
+  sha1sum "${f}"
+}
 
-if [[ -n ${GPG_PASSPHRASE} ]]; then
+function backup(){
+
+  backup_files=()
+  for f in attachments config.json rsa_key.der rsa_key.pem rsa_key.pub.der rsa_key.pub.pem sends; do
+    if [[ -e "${DATA_DIR}"/$f ]]; then
+      backup_files+=("${DATA_DIR}"/$f)
+    fi
+  done
+
+  cp -a "${backup_files[@]}" "${BACKUP_DIR_PATH}"
+  tar -cJf "${BACKUP_FILE_PATH}" -C "${BACKUP_ROOT}" "${BACKUP_DIR_NAME}"
+  rm -rf "${BACKUP_DIR_PATH}"
+  checksums "${BACKUP_FILE_PATH}" 
+
+  if [[ -n ${GPG_PASSPHRASE} ]]; then
     # https://gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html
     # Note: Add `--pinentry-mode loopback` if using GnuPG 2.1.
     printf '%s' "${GPG_PASSPHRASE}" |
     ${GPG} -c --cipher-algo "${GPG_CIPHER_ALGO}" --batch --passphrase-fd 0 "${BACKUP_FILE_PATH}"
     BACKUP_FILE_NAME+=".gpg"
     BACKUP_FILE_PATH+=".gpg"
-    md5sum "${BACKUP_FILE_PATH}"
-    sha1sum "${BACKUP_FILE_PATH}"
-elif [[ -n ${AGE_PASSPHRASE} ]]; then
+    checksums "${BACKUP_FILE_PATH}"
+  elif [[ -n ${AGE_PASSPHRASE} ]]; then
     export AGE_PASSPHRASE
     ${AGE} -p -o "${BACKUP_FILE_PATH}.age" "${BACKUP_FILE_PATH}"
     BACKUP_FILE_NAME+=".age"
     BACKUP_FILE_PATH+=".age"
-    md5sum "${BACKUP_FILE_PATH}"
-    sha1sum "${BACKUP_FILE_PATH}"
-fi
+    checksums "${BACKUP_FILE_PATH}"
+  fi
 
-# Attempt uploading to all remotes, even if some fail.
-set +e
+  # Attempt uploading to all remotes, even if some fail.
+  set +e
 
-success=0
-for dest in "${RCLONE_DESTS[@]}"; do
+  success=0
+  for dest in "${RCLONE_DESTS[@]}"; do
     if ${RCLONE} -vv --no-check-dest copy "${BACKUP_FILE_PATH}" "${dest}"; then
-        (( success++ ))
+      (( success++ ))
     fi
-done
+  done
 
-if [[ ${success} == ${#RCLONE_DESTS[@]} ]]; then
+  if [[ ${success} == ${#RCLONE_DESTS[@]} ]]; then
     echo "Backup successfully copied to all destinations."
     exit 0
-else
+  else
     echo "Backup successfully copied to ${success} of ${#RCLONE_DESTS[@]} destinations."
     exit 1
-fi
+  fi
+}
+
+function main(){
+  backup
+}
+
+main "@"
