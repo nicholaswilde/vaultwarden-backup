@@ -66,6 +66,7 @@ The deviations of this fork are:
 1. `apprise` notifications.
 2. Additional documentation and variables in `backup.conf`.
 3. Enable `GPG` or `age` encryption if passphrase is blank.
+4. Use `gpg` and `age` keys rather than passphrases.
 
 ## :clipboard: Prerequisites
 
@@ -291,6 +292,12 @@ this repo is only intended to implement my own backup requirements. I may be
 willing to make some minor generalizations to make it easier for people to
 use the repo without modification, but aside from that, feel free to fork and
 modify this setup to fit your own needs.
+
+---
+
+## :: ToDo
+
+- [ ] Change from passphrases to encryption keys.
 
 ---
 
