@@ -295,9 +295,10 @@ modify this setup to fit your own needs.
 
 ---
 
-## :: ToDo
+## :clipboard: ToDo
 
 - [ ] Change from passphrases to encryption keys.
+- [ ] Test apprise disable by making variable not set.
 
 ---
 
