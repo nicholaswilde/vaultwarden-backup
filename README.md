@@ -299,7 +299,7 @@ modify this setup to fit your own needs.
 
 - [ ] Change from passphrases to encryption keys.
 - [ ] Test apprise disable by making variable not set.
-
+- [ ] Document backup restoration.
 ---
 
 <!-- spellchecker-disable -->
