@@ -11,7 +11,8 @@ set -ex
 : ${AGE:="/usr/local/bin/age"}
 
 DATA_DIR="data"
-BACKUP_ROOT="${VAULTWARDEN_ROOT}/backup"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+BACKUP_ROOT="${VAULTWARDEN_ROOT}/$(basename ${SCRIPT_DIR})"
 BACKUP_TIMESTAMP="$(date '+%Y%m%d-%H%M')"
 BACKUP_DIR_NAME="vaultwarden-${BACKUP_TIMESTAMP}"
 BACKUP_DIR_PATH="${BACKUP_ROOT}/${BACKUP_DIR_NAME}"
@@ -22,8 +23,10 @@ DB_FILE="db.sqlite3"
 
 source "${BACKUP_ROOT}"/backup.conf
 
-cd "${VAULTWARDEN_ROOT}"
-mkdir -p "${BACKUP_DIR_PATH}"
+function create_temp_dir(){
+  cd "${VAULTWARDEN_ROOT}"
+  mkdir -p "${BACKUP_DIR_PATH}"
+}
 
 # Back up the database using the Online Backup API (https://www.sqlite.org/backup.html)
 # as implemented in the SQLite CLI. However, if a call to sqlite3_backup_step() returns
@@ -35,11 +38,13 @@ mkdir -p "${BACKUP_DIR_PATH}"
 # (https://www.sqlite.org/c3ref/busy_timeout.html), which will keep trying to open a
 # locked table until the timeout period elapses.
 
-busy_timeout=30000 # in milliseconds
+function backup_sqlite(){
+  local busy_timeout=30000 # in milliseconds
 
-${SQLITE3} -cmd ".timeout ${busy_timeout}" \
-           "file:${DATA_DIR}/${DB_FILE}?mode=ro" \
-           ".backup '${BACKUP_DIR_PATH}/${DB_FILE}'"
+  ${SQLITE3} -cmd ".timeout ${busy_timeout}" \
+             "file:${DATA_DIR}/${DB_FILE}?mode=ro" \
+             ".backup '${BACKUP_DIR_PATH}/${DB_FILE}'"
+}
 
 function checksums(){
   local f=$1
@@ -47,20 +52,20 @@ function checksums(){
   sha1sum "${f}"
 }
 
-function backup(){
-
+function backup_data_files(){
   backup_files=()
   for f in attachments config.json rsa_key.der rsa_key.pem rsa_key.pub.der rsa_key.pub.pem sends; do
     if [[ -e "${DATA_DIR}"/$f ]]; then
       backup_files+=("${DATA_DIR}"/$f)
     fi
   done
-
   cp -a "${backup_files[@]}" "${BACKUP_DIR_PATH}"
   tar -cJf "${BACKUP_FILE_PATH}" -C "${BACKUP_ROOT}" "${BACKUP_DIR_NAME}"
   rm -rf "${BACKUP_DIR_PATH}"
   checksums "${BACKUP_FILE_PATH}" 
+}
 
+function encrypt_files(){
   if [[ -n ${GPG_PASSPHRASE} ]]; then
     # https://gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html
     # Note: Add `--pinentry-mode loopback` if using GnuPG 2.1.
@@ -76,7 +81,11 @@ function backup(){
     BACKUP_FILE_PATH+=".age"
     checksums "${BACKUP_FILE_PATH}"
   fi
+  export BACKUP_FILE_NAME
+  export BACKUP_FILE_PATH
+}
 
+function rclone_copy(){
   # Attempt uploading to all remotes, even if some fail.
   set +e
 
@@ -86,18 +95,26 @@ function backup(){
       (( success++ ))
     fi
   done
+  export success
+}
 
+function show_status(){
   if [[ ${success} == ${#RCLONE_DESTS[@]} ]]; then
     echo "Backup successfully copied to all destinations."
     exit 0
   else
     echo "Backup successfully copied to ${success} of ${#RCLONE_DESTS[@]} destinations."
     exit 1
-  fi
+  fi  
 }
 
 function main(){
-  backup
+  create_temp_dir
+  backup_sqlite
+  backup_data_files
+  encrypt_files
+  rclone_copy
+  show_status
 }
 
 main "@"

@@ -2,6 +2,16 @@
 version: '3'
 
 tasks:
+  deps:
+    desc: Install dependencies
+    cmds:
+      - sudo apt update
+      - sudo apt install rclone
+      - pipx install apprise
+  init:
+    desc: Init
+    cmds:
+      - cp backup.conf.tmpl backup.conf
   foo:
     desc: foo
     cmds:

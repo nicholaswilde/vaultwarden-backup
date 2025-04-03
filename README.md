@@ -6,7 +6,8 @@ A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to
 ## :pushpin: TL;DR
 
 ```shell
-apt install rclone apprise
+sudo apt install rclone
+pipx install apprise
 ```
 
 Setup `rclone`
@@ -300,6 +301,9 @@ modify this setup to fit your own needs.
 - [ ] Change from passphrases to encryption keys.
 - [ ] Test apprise disable by making variable not set.
 - [ ] Document backup restoration.
+- [ ] Move documentation to wiki.
+- [ ] Evaluate if app paths are needed.
+
 ---
 
 <!-- spellchecker-disable -->
