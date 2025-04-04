@@ -312,6 +312,7 @@ modify this setup to fit your own needs.
 - [ ] Document backup restoration.
 - [ ] Move documentation to wiki.
 - [ ] Evaluate if app paths are needed.
+- [ ] Auto detection of gpg version for pinentry.
 
 ---
 
