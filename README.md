@@ -119,6 +119,11 @@ The deviations of this fork are:
    * [Microsoft OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage) (5 GB)
    * [Oracle Cloud](https://www.oracle.com/cloud/free/) (10 GB)
 
+
+  I am using [Google Drive](https://rclone.org/drive/).
+
+  I am also using a headless server and so I needed to use this method to authenticate.
+
 7. Optionally, a [`gpg`](https://gnupg.org/) (GnuPG 2.x) binary. This can be
    installed via the `gnupg` package on Debian/Ubuntu or the `gnupg2` package
    on RHEL/CentOS/Fedora.
