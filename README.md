@@ -183,6 +183,7 @@ The deviations of this fork are:
       2. `RCLONE`
       3. `GPG`
       4. `AGE`
+      5. `APPRISE`
 
    3. `apprise` can be enabled by setting `APPRISE_EMAIL` in `backup.conf`.
    
