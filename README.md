@@ -313,6 +313,8 @@ modify this setup to fit your own needs.
 - [ ] Move documentation to wiki.
 - [ ] Evaluate if app paths are needed.
 - [ ] Auto detection of gpg version for pinentry.
+- [ ] Do work in `/tmp` rather than `backup` dir.
+- [ ] Add logs to standard log folder.
 
 ---
 
