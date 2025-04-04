@@ -82,14 +82,14 @@ The deviations of this fork are:
    bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/vaultwarden.sh)"
    ```
 
-3. A [`cron`](https://en.wikipedia.org/wiki/Cron) daemon. This is used to run
+2. A [`cron`](https://en.wikipedia.org/wiki/Cron) daemon. This is used to run
    backup actions on a scheduled basis.
 
    ```shell
    apt install cron
    ```
 
-4. An [`sqlite3`](https://sqlite.org/cli.html) binary. This is used to back up
+3. An [`sqlite3`](https://sqlite.org/cli.html) binary. This is used to back up
    the SQLite database. This can be installed via the `sqlite3` package on
    Debian/Ubuntu or the `sqlite` package on RHEL/CentOS/Fedora.
 
@@ -97,7 +97,7 @@ The deviations of this fork are:
    apt install sqlite3
    ```
 
-5. An [`rclone`](https://rclone.org/) binary. This is used to copy the backup
+4. An [`rclone`](https://rclone.org/) binary. This is used to copy the backup
    archives to cloud storage. This can be installed via the `rclone` package
    on Debian/Ubuntu and RHEL/CentOS/Fedora ([EPEL](https://fedoraproject.org/wiki/EPEL)
    required for RHEL/CentOS), but as rclone changes more rapidly, it's probably
@@ -107,7 +107,7 @@ The deviations of this fork are:
    apt install rclone
    ```
    
-6. An account at one or more cloud storage services
+5. An account at one or more cloud storage services
    [supported](https://rclone.org/overview/) by `rclone`. If you don't have one
    yet, here are a few cloud storage services that offer a free tier:
 
@@ -123,15 +123,15 @@ The deviations of this fork are:
 
     I am also using a headless server and so I needed to use [this method](https://rclone.org/remote_setup/) to authenticate.
 
-7. Optionally, a [`gpg`](https://gnupg.org/) (GnuPG 2.x) binary. This can be
+6. Optionally, a [`gpg`](https://gnupg.org/) (GnuPG 2.x) binary. This can be
    installed via the `gnupg` package on Debian/Ubuntu or the `gnupg2` package
    on RHEL/CentOS/Fedora.
 
-8. Optionally, an [`age`](https://github.com/FiloSottile/age) binary. This option
+7. Optionally, an [`age`](https://github.com/FiloSottile/age) binary. This option
    requires a [custom version](https://github.com/jjlin/age/tree/passphrase-from-env)
    of the tool that supports reading the passphrase from an environment variable.
 
-9. Optionally, [`apprise`](https://github.com/caronc/apprise) can be used to send notifications with the job status.
+8. Optionally, [`apprise`](https://github.com/caronc/apprise) can be used to send notifications with the job status.
 
     ```shell
     sudo apt install apprise # bookworm
