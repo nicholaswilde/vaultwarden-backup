@@ -7,7 +7,9 @@ A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to
 
 ```shell
 sudo apt install rclone
-pipx install apprise
+sudo apt install apprise # bookworm
+# or
+pipx install apprise # other
 ```
 
 Setup `rclone`
