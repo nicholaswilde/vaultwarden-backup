@@ -242,7 +242,7 @@ The deviations of this fork are:
    (crontab -l 2>/dev/null; cat crontab.tmpl) | crontab -
    ```
 
-6. If you use GnuPG 2.1 or later, see the note about `--pinentry-mode loopback`
+6. If you use GnuPG 2.1 or later, see the note about [`--pinentry-mode loopback`](https://www.gnupg.org/documentation/manuals/gpgme/Pinentry-Mode.html)
    in `backup.sh`.
 
 If everything is working properly, you should see the following:
