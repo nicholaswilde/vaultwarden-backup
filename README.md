@@ -86,7 +86,7 @@ The deviations of this fork are:
    backup actions on a scheduled basis.
 
    ```shell
-   apt install cron
+   sudo apt install cron
    ```
 
 3. An [`sqlite3`](https://sqlite.org/cli.html) binary. This is used to back up
@@ -94,7 +94,7 @@ The deviations of this fork are:
    Debian/Ubuntu or the `sqlite` package on RHEL/CentOS/Fedora.
 
    ```shell
-   apt install sqlite3
+   sudo apt install sqlite3
    ```
 
 4. An [`rclone`](https://rclone.org/) binary. This is used to copy the backup
@@ -104,7 +104,7 @@ The deviations of this fork are:
    best to just use the latest binary from https://rclone.org/downloads/.
 
    ```shell
-   apt install rclone
+   sudo apt install rclone
    ```
    
 5. An account at one or more cloud storage services
