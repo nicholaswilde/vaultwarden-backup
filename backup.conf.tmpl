@@ -13,23 +13,29 @@
 # Encryption options for GnuPG (https://www.gnupg.org/)
 # Uncomment to enable GnuPG encryption.
 #
+# GPG_CIPHER_ALGO=AES256
+# GPG_CIPHER_ALGO=AES192
 GPG_CIPHER_ALGO=AES128
 GPG_PASSPHRASE='hunter2'
+# Last 8 characters of gpg fingerprint
+# GPG_FINGERPRINT=0x12345678
 
 #
 # Encryption options for age (https://github.com/FiloSottile/age)
 # Uncomment to enable age encryption.
 #
-#AGE_PASSPHRASE='hunter2'
+# AGE_PASSPHRASE='hunter2'
+# AGE_FILE_PATH=${HOME}/.config/sops/age/keys.txt
 
 #
 # apprise email (https://github.com/caronc/apprise?tab=readme-ov-file#email-notifications)
 #
-#APPRISE_EMAIL=mailto://email:passkey@gmail.com
+# APPRISE_EMAIL=mailto://email:passkey@gmail.com
 
+# Format of <remote name>:<remote dir>
 RCLONE_DESTS=(
   # Google Drive (https://rclone.org/drive/)
-  remote:vaultwarden
+  drive:vaultwarden
   # Backblaze B2 (https://rclone.org/b2/)
   b2:vaultwarden
   # Oracle Cloud Infrastructure (https://docs.oracle.com/en/solutions/move-data-to-cloud-storage-using-rclone/)

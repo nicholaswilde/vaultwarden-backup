@@ -66,13 +66,23 @@ function backup_data_files(){
 }
 
 function encrypt_files(){
-  if [[ -n ${GPG_PASSPHRASE} ]]; then
+  if [[ -n ${GPG_FINGERPRINT} ]]; then
+    ${GPG} -e -r "${GPG_FINGERPRINT}" --cipher-algo "${GPG_CIPHER_ALGO}" "${BACKUP_FILE_PATH}"
+    BACKUP_FILE_NAME+=".gpg"
+    BACKUP_FILE_PATH+=".gpg"
+    checksums "${BACKUP_FILE_PATH}"
+  elif [[ -n ${GPG_PASSPHRASE} ]]; then
     # https://gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html
     # Note: Add `--pinentry-mode loopback` if using GnuPG 2.1.
     printf '%s' "${GPG_PASSPHRASE}" |
     ${GPG} -c --cipher-algo "${GPG_CIPHER_ALGO}" --batch --passphrase-fd 0 "${BACKUP_FILE_PATH}"
     BACKUP_FILE_NAME+=".gpg"
     BACKUP_FILE_PATH+=".gpg"
+    checksums "${BACKUP_FILE_PATH}"
+  elif [[ -n ${AGE_FILE_PATH} ]]; then
+    ${AGE} -e -i ${AGE_FILE_PATH} -o "${BACKUP_FILE_PATH}.age" "${BACKUP_FILE_PATH}"
+    BACKUP_FILE_NAME+=".age"
+    BACKUP_FILE_PATH+=".age"
     checksums "${BACKUP_FILE_PATH}"
   elif [[ -n ${AGE_PASSPHRASE} ]]; then
     export AGE_PASSPHRASE

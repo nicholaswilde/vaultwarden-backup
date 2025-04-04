@@ -2,6 +2,10 @@
 version: '3'
 
 tasks:
+  backup:
+    desc: Backup files
+    cmds:
+      - ./backup.sh
   deps:
     desc: Install dependencies
     cmds:
