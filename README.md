@@ -130,7 +130,9 @@ The deviations of this fork are:
 9. Optionally, [`apprise`](https://github.com/caronc/apprise) can be used to send notifications with the job status.
 
     ```shell
-    pipx install apprise
+    sudo apt install apprise # bookworm
+    # or
+    pipx install apprise # other
     ```
 
     Send test email
