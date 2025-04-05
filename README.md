@@ -26,7 +26,6 @@ Edit `backup.conf`
 
 ```shell
 ./backup.sh
-./cron.sh
 ```
 
 ---
@@ -260,19 +259,12 @@ For example:
 │   ├── vaultwarden-20210101-0000.tar.xz
 │   ├── vaultwarden-20210101-0000.tar.xz.gpg
 │   ├── vaultwarden-20210101-0100.tar.xz
-│   ├── vaultwarden-20210101-0100.tar.xz.gpg
+│   ├── vaultwarden-20210101-0100.tar.xz.age
 │   └── ...
 ├── backup.conf
 ├── backup.conf.tmpl
-├── backup.log
 ├── backup.sh
-├── cron.sh
 ├── crontab.tmpl
-├── logs
-│   ├── backup-success-20210101-0000.log
-│   ├── backup-success-20210101-0100.log
-│   ├── backup-failure-20210101-0200.log
-│   └── ...
 ├── LICENSE
 └── README.md
 ```
@@ -287,10 +279,13 @@ Test the backup.
 ./backup.sh
 ```
 
-Test the cron script.
+---
+
+## :file_folder: Logs
 
 ```shell
-./cron.sh
+journalctl -t rclone --no-pager
+journalctl -t vaultwarden-backup --no-pager
 ```
 
 ---
@@ -307,14 +302,14 @@ modify this setup to fit your own needs.
 
 ## :clipboard: ToDo
 
-- [ ] Change from passphrases to encryption keys.
 - [ ] Test apprise disable by making variable not set.
 - [ ] Document backup restoration.
 - [ ] Move documentation to wiki.
 - [ ] Evaluate if app paths are needed.
 - [ ] Auto detection of gpg version for pinentry.
 - [ ] Do work in `/tmp` rather than `backup` dir.
-- [ ] Add logs to standard log folder.
+- [X] ~Change from passphrases to encryption keys.~
+- [X] ~Add logs to standard log folder.~
 
 ---
 
