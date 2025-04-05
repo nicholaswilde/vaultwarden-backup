@@ -2,8 +2,17 @@
 version: '3'
 
 tasks:
+  purge:
+    desc: Purge old files
+    cmds:
+      - find "./archives" -name 'vaultwarden-*.tar.*' -mtime +14 -delete
+  logs:
+    desc: Show logs
+    cmds:
+      - journalctl -t rclone --no-pager
+      - journalctl -t vaultwarden-backup --no-pager
   backup:
-    desc: Backup files
+    desc: Run backup.sh
     cmds:
       - ./backup.sh
   deps:
