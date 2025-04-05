@@ -98,7 +98,7 @@ function backup_data_files(){
 function encrypt_files(){
   if [[ -n ${GPG_FINGERPRINT} ]]; then
     log_message "info" "Encrypting files"
-    ${GPG} --yes -e -r "${GPG_FINGERPRINT}" --cipher-algo "${GPG_CIPHER_ALGO}" "${BACKUP_FILE_PATH}"
+    ${GPG} --yes --batch -e -r "${GPG_FINGERPRINT}" --cipher-algo "${GPG_CIPHER_ALGO}" "${BACKUP_FILE_PATH}"
     BACKUP_FILE_NAME+=".gpg"
     BACKUP_FILE_PATH+=".gpg"
   elif [[ -n ${GPG_PASSPHRASE} ]]; then

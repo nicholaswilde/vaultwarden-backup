@@ -180,6 +180,9 @@ The deviations of this fork are:
       plaintext, it definitely should not be your Bitwarden master passphrase
       or anything similar.
 
+      Encryption keys may be used to encrypt the archives as well. Set 
+      `GPG_FINGERPRINT` for `gpg` or `AGE_FILE_PATH` for `age`.
+
       [rclone crypt](https://rclone.org/crypt/) is another option for encrypted
       archives. If you prefer to use this method, just set `GPG_PASSPHRASE` to
       be blank, configure rclone crypt appropriately, and use the crypt remote
@@ -248,8 +251,6 @@ If everything is working properly, you should see the following:
 
 1. Backup archives generated under `backup/archives`.
 2. Encrypted backup archives uploaded to your configured rclone destination(s).
-3. A log of the last backup at `backup/backup.log`.
-4. Copies of the backup logs saved to `backup/logs`.
 
 For example:
 
@@ -283,9 +284,11 @@ Test the backup.
 
 ## :file_folder: Logs
 
+Logs can be shown by running the following
+
 ```shell
-journalctl -t rclone --no-pager
-journalctl -t vaultwarden-backup --no-pager
+sudo journalctl -t rclone --no-pager
+sudo journalctl -t vaultwarden-backup --no-pager
 ```
 
 ---
