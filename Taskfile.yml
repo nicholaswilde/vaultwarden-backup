@@ -1,7 +1,17 @@
 ---
 version: '3'
 
+vars:
+  IMAGE: nicholaswilde/mkdocs-material
+  PORT: 8000
+
 tasks:
+  build:
+    desc: Build documentation using Docker and mkdocs-material
+    cmds:
+      - >-
+        docker run --rm -it -v ${PWD}:/docs --platform linux/amd64
+        {{ .IMAGE }} build -f ./mkdocs.yml
   clean:
     desc: Remove the previous checksum file
     cmds:
@@ -31,6 +41,17 @@ tasks:
     desc: Init
     cmds:
       - cp backup.conf.tmpl backup.conf
+  serve:
+    desc: >-
+      Start development server on http://0.0.0.0:{{ .PORT }} using
+      Docker and mkdocs-material
+    cmds:
+      - >-
+        docker run --rm -it -p {{ .PORT }}:{{ .PORT}} -v ${PWD}:/docs
+        --platform linux/amd64 {{ .IMAGE }} serve
+        --dev-addr 0.0.0.0:{{ .PORT }} -f ./mkdocs.yml
+    deps:
+      - build
   default:
     cmds:
       - task -l
