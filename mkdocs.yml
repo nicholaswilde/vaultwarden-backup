@@ -15,7 +15,9 @@ edit_uri: "edit/main/docs/"
 # Page tree
 nav:
   - Home: index.md
-
+  - Prerequisites: prerequisites.md
+  - Configuration: configuration.md
+  - Troubleshooting: troubleshooting.md
 extra:
   social:
     - icon: fontawesome/solid/house
@@ -40,7 +42,7 @@ theme:
   language: en
   icon:
     repo: fontawesome/brands/github
-    logo: fontawesome/solid/house-chimney
+    logo: fontawesome/solid/lock
   features:
     - navigation.top
     - navigation.tracking
