@@ -74,6 +74,13 @@ function check_sqlite(){
   fi
 }
 
+function check_gpg(){
+  if ! command_exists gpg; then
+    log_message "err" "gpg is not installed"
+    exit 1
+  fi
+}
+
 function backup_sqlite(){
   local busy_timeout=30000 # in milliseconds
   log_message "info" "Backing up sqlite3"
@@ -95,16 +102,43 @@ function backup_data_files(){
   rm -rf "${BACKUP_DIR_PATH}"
 }
 
+function get_gpg(){
+  local required_version="2.1"
+    
+  local current_version=$(gpg --version | head -n 1 | awk '{print $3}')
+  
+  if [[ -z "${current_version}" ]]; then
+    log_message "err" "Could not determine gpg version from 'gpg --version'."
+    exit 1
+  fi
+  
+  log_message "info" "Detected GPG version: ${current_version}"
+  log_message "info" "Required version: > ${required_version}"
+  
+  local lowest_version=$( \
+    printf '%s\n%s\n' "${current_version}" "${required_version}" | \
+    sort -V | \
+    head -n 1 \
+  )
+  
+  if [[ "${lowest_version}" == "${required_version}" ]] && \
+      [[ "$current_version" != "${required_version}" ]]; then
+    GPG+=" --pinentry-mode loopback"
+  fi
+  export GPG
+}
+
 function encrypt_files(){
   if [[ -n ${GPG_FINGERPRINT} ]]; then
     log_message "info" "Encrypting files"
+    check_gpg
     ${GPG} --yes --batch -e -r "${GPG_FINGERPRINT}" --cipher-algo "${GPG_CIPHER_ALGO}" "${BACKUP_FILE_PATH}"
     BACKUP_FILE_NAME+=".gpg"
     BACKUP_FILE_PATH+=".gpg"
   elif [[ -n ${GPG_PASSPHRASE} ]]; then
-    # https://gnupg.org/documentation/manuals/gnupg/GPG-Esoteric-Options.html
-    # Note: Add `--pinentry-mode loopback` if using GnuPG 2.1.
     log_message "info" "Encrypting files"
+    check_gpg
+    get_gpg
     printf '%s' "${GPG_PASSPHRASE}" |
     ${GPG} --yes -c --cipher-algo "${GPG_CIPHER_ALGO}" --batch --passphrase-fd 0 "${BACKUP_FILE_PATH}"
     BACKUP_FILE_NAME+=".gpg"

@@ -2,6 +2,12 @@
 version: '3'
 
 tasks:
+  clean:
+    desc: Remove the previous checksum file
+    cmds:
+      - rm /tmp/checksum
+      - rm -r ./vaultwarden-*
+    ignore_error: true
   purge:
     desc: Purge old files
     cmds:
@@ -25,10 +31,6 @@ tasks:
     desc: Init
     cmds:
       - cp backup.conf.tmpl backup.conf
-  foo:
-    desc: foo
-    cmds:
-      - echo bar
   default:
     cmds:
       - task -l
