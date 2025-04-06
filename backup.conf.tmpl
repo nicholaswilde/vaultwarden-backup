@@ -34,6 +34,8 @@ GPG_PASSPHRASE='hunter2'
 
 # Format of <remote name>:<remote dir>
 RCLONE_DESTS=(
+  # An NFS share that is locally mounted
+  /mounted/nfs/path
   # Google Drive (https://rclone.org/drive/)
   drive:vaultwarden
   # Backblaze B2 (https://rclone.org/b2/)
