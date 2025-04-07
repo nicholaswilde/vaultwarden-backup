@@ -62,7 +62,7 @@ gpg --fingerprint
 AGE_FILE_PATH=${HOME}/.config/sops/age/keys.txt
 ```
 
-The order of precedence for the encrypt is:
+The order of precedence for the encryption is:
 
 1. `GPG_FINGERPRINT`
 2. `GPG_PASSPHRASE`
@@ -150,31 +150,6 @@ https://sqlite.org/wal.html#read_only_databases.)
 
     ```shell
     crontab -e
-    ```
-
-## :white_check_mark: Verification
-
-If everything is working properly, you should see the following:
-
-1. Backup archives generated under `backup/archives`.
-2. Encrypted backup archives uploaded to your configured rclone destination(s).
-
-!!! example
-
-    ```shell
-    /opt/vaultwarden/backup
-    ├── archives
-    │   ├── vaultwarden-20210101-0000.tar.xz
-    │   ├── vaultwarden-20210101-0000.tar.xz.gpg
-    │   ├── vaultwarden-20210101-0100.tar.xz
-    │   ├── vaultwarden-20210101-0100.tar.xz.age
-    │   └── ...
-    ├── backup.conf
-    ├── backup.conf.tmpl
-    ├── backup.sh
-    ├── crontab.tmpl
-    ├── LICENSE
-    └── README.md
     ```
 
 [1]: <https://github.com/getsops/sops?tab=readme-ov-file#23encrypting-using-age>

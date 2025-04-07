@@ -17,6 +17,7 @@ nav:
   - Home: index.md
   - Prerequisites: prerequisites.md
   - Configuration: configuration.md
+  - Usage: usage.md
   - Troubleshooting: troubleshooting.md
 extra:
   social:
