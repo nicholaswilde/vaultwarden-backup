@@ -1,5 +1,6 @@
 # :lock: Vaultwarden Backup :floppy_disk:
 [![task](https://img.shields.io/badge/Task-Enabled-brightgreen?style=for-the-badge&logo=task&logoColor=white)](https://taskfile.dev/#/)
+[![ci](https://img.shields.io/github/actions/workflow/status/nicholaswilde/vaultwarden-backup/ci.yaml?label=ci&style=for-the-badge&branch=main)](https://github.com/nicholaswilde/vaultwarden-backup/actions/workflows/ci.yaml)
 
 A simple setup for backing up Vaultwarden (formerly bitwarden_rs) data/config to cloud storage.
 
@@ -60,10 +61,10 @@ modify this setup to fit your own needs.
 
 - [ ] Test apprise disable by making variable not set.
 - [ ] Document backup restoration.
-- [ ] Move documentation to wiki.
 - [ ] Evaluate if app paths are needed.
-- [ ] Auto detection of gpg version for pinentry.
 - [ ] Do work in `/tmp` rather than `backup` dir.
+- [X] ~Auto detection of gpg version for pinentry.~
+- [X] ~Move documentation to wiki.~
 - [X] ~Change from passphrases to encryption keys.~
 - [X] ~Add logs to standard log folder.~
 
