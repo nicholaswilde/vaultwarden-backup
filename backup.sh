@@ -1,6 +1,17 @@
 #!/bin/bash
-
-# 0xb299a622
+################################################################################
+#
+# backup
+# ----------------
+# A simple setup for backing up Vaultwarden (formerly bitwarden_rs)
+# data/config to cloud storage
+#
+# @author Nicholas Wilde, 0xb299a622
+# @based on the work of Jeremy Lin
+# @date 22 Apr 2025
+# @version 0.1.1
+#
+################################################################################
 
 # Use the value of the corresponding environment variable, or the
 # default if none exists.
