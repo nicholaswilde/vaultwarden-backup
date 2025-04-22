@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# 0xb299a622
+
 # Use the value of the corresponding environment variable, or the
 # default if none exists.
 : ${VAULTWARDEN_ROOT:="$(realpath "${0%/*}"/..)"}
